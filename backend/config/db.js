@@ -11,11 +11,7 @@ const connectDB = async () => {
       throw new Error('MONGODB_URI is not defined in .env file');
     }
 
-    const conn = await mongoose.connect(uri, {
-      // These options ensure compatibility with MongoDB Compass local connections
-      serverSelectionTimeoutMS: 5000, // Fail fast if DB is unreachable
-      socketTimeoutMS: 45000,
-    });
+    const conn = await mongoose.connect(uri);
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     console.log(`   Database: ${conn.connection.name}`);
