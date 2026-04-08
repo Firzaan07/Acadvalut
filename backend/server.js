@@ -39,6 +39,7 @@ const isAllowedOrigin = (origin) => {
   
   // Explicitly allow production frontend
   const allowedOrigins = [
+    'https://acadvalut.vercel.app',
     'https://academi-portal.vercel.app',
     process.env.CLIENT_URL
   ].filter(Boolean);
