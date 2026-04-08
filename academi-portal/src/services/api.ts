@@ -1,10 +1,9 @@
 import axios from 'axios';
 
-// Base API URL - reads from Vite environment variable or falls back to production/localhost
-const API_URL = import.meta.env.VITE_API_BASE_URL || 
-                (window.location.hostname === 'localhost' 
-                  ? 'http://localhost:5000/api' 
-                  : 'https://acadvalut-backend.onrender.com/api'); // Update this to your real backend URL
+// Base API URL - hardcoded for production to bypass Vercel environment variable issues
+const API_URL = import.meta.env.PROD 
+  ? 'https://acadvalut-1.onrender.com/api' 
+  : 'http://localhost:5000/api';
 
 // ─────────────────────────────────────────────
 // Response shape returned by our server
