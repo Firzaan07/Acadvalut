@@ -49,15 +49,16 @@ const isAllowedOrigin = (origin) => {
 };
 
 const corsOptions = {
-  origin: true, // Dynamically allow any origin in production to solve CORS immediately
+  origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  maxAge: 86400, // Cache preflight response for 24 hours
+  maxAge: 86400,
   optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
+// Handle preflight for all routes
 app.options('*', cors(corsOptions));
 
 // ─────────────────────────────────────────────
