@@ -31,35 +31,24 @@ const app = express();
 // Dynamically allows any localhost port so Vite dev server always works
 // regardless of which port it picks (5173, 5174, 5178, 8080, etc.)
 // ─────────────────────────────────────────────
-const localhostRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
-
-const isAllowedOrigin = (origin) => {
-  if (!origin) return true; // Allow Postman, curl, etc. with no origin
-  if (localhostRegex.test(origin)) return true; // Allow any localhost port in dev
-  
-  // Explicitly allow production frontend
-  const allowedOrigins = [
-    'https://acadvalut.vercel.app',
-    'https://academi-portal.vercel.app',
-    process.env.CLIENT_URL
-  ].filter(Boolean);
-
-  if (allowedOrigins.includes(origin)) return true;
-  return false;
-};
-
-const corsOptions = {
+// ─────────────────────────────────────────────
+// 3. CORS Configuration
+// ─────────────────────────────────────────────
+app.use(cors({
   origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  maxAge: 86400,
-  optionsSuccessStatus: 204,
-};
+}));
 
-app.use(cors(corsOptions));
-// Handle preflight for all routes
-app.options('*', cors(corsOptions));
+// Handle preflight for all routes explicitly
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.header('Origin') || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(204);
+});
 
 // ─────────────────────────────────────────────
 // 4. Request Parsing Middleware
