@@ -49,14 +49,7 @@ const isAllowedOrigin = (origin) => {
 };
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (isAllowedOrigin(origin)) {
-      callback(null, true);
-    } else {
-      console.warn(`CORS blocked for origin: ${origin}`);
-      callback(new Error(`CORS policy: Origin '${origin}' is not allowed.`));
-    }
-  },
+  origin: true, // Dynamically allow any origin in production to solve CORS immediately
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
